@@ -11,7 +11,7 @@ import {
 function App() {
   return (
     <div>
-      <HashRouter>
+      <HashRouter basename="/Bus-Search-System">
         <Routes>
           <Route path="/" element={<Homepage />} />
         </Routes>
