@@ -1,15 +1,21 @@
 import React from "react";
 import Homepage from "./pages/Homepage";
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import {
+  BrowserRouter as HashRouter,
+  Router,
+  Route,
+  Link,
+  Routes,
+} from "react-router-dom";
 
 function App() {
   return (
     <div>
-      <Router>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Homepage />} />
         </Routes>
-      </Router>
+      </HashRouter>
     </div>
   );
 }
