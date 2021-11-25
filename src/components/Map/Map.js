@@ -4,59 +4,64 @@ import { Paper, Typography, useMediaQuery } from "@material-ui/core";
 import LocationOnOutlined from "@material-ui/icons/LocationOnOutlined";
 
 import useStyles from "./styles";
+import { Rating } from "@material-ui/lab";
 
-const Map = ({ coordinates, stations }) => {
+const Map = ({
+  setCoordinates,
+  setBounds,
+  setChildClicked,
+  coordinates,
+  places,
+}) => {
   const classes = useStyles();
-  const isMobile = useMediaQuery("(min-width: 600px)");
+  const isDesktop = useMediaQuery("(min-width: 600px)");
 
-  const AnyReactComponent = ({ text }) => (
-    <div
-      style={{
-        color: "white",
-        background: "grey",
-        padding: "15px 10px",
-        display: "inline-flex",
-        textAlign: "center",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: "100%",
-        transform: "translate(-50%, -50%)",
-      }}
-    >
-      {text}
-    </div>
-  );
   return (
     <div className={classes.mapContainer}>
       <GoogleMapReact
-        // bootstrapURLKeys={{ key: process.env.REACT_APP_MAPSTOKEN }}
+        bootstrapURLKeys={{ key: process.env.REACT_APP_MAPSTOKEN }}
         defaultCenter={coordinates}
         center={coordinates}
         defaultZoom={14}
         margin={[50, 50, 50, 50]}
-        // options={""}
-        // onChange={""}
-        // onChildClick={""}
+        options={""}
+        onChange={(e) => {
+          setCoordinates({ lat: e.center.lat, lng: e.center.lng });
+          setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
+        }}
+        onChildClick={(child) => {
+          console.log(child);
+          setChildClicked(child);
+        }}
       >
-        {/* console.log(data[0].StationPosition.PositionLat, data[0].StationPosition.PositionLon); */}
-
-        {stations
-          ? stations.map((station, index) => (
-              <div
-                className={classes.markerContainer}
-                lat={station.StationPosition.PositionLat}
-                lng={station.StationPosition.PositionLon}
-                key={index}
-              >
-                <LocationOnOutlined />
-              </div>
-            ))
-          : ""}
-        <AnyReactComponent
-          lat={coordinates.lat}
-          lng={coordinates.lng}
-          text="My Marker"
-        />
+        {places?.map((place, index) => (
+          <div
+            className={classes.makerContainer}
+            lat={Number(place.latitude)}
+            lng={Number(place.longitude)}
+            key={index}
+          >
+            {!isDesktop ? (
+              <LocationOnOutlined color="primary" fontSize="large" />
+            ) : (
+              <Paper elevation={3} className={classes.paper}>
+                <Typography
+                  className={classes.Typography}
+                  variant="subtitle2"
+                  gutterBottom
+                >
+                  {place.name}
+                </Typography>
+                <img
+                  className={classes.pointer}
+                  src={place.photo ? place.photo.images.large.url : ""}
+                  alt={place.name}
+                />
+                <Rating size="small" value={Number(place.rating)} readOnly />
+              </Paper>
+            )}
+          </div>
+        ))}
       </GoogleMapReact>
     </div>
   );
