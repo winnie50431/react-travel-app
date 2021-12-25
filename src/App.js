@@ -4,7 +4,7 @@ import { BrowserRouter as HashRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <HashRouter basename="/Bus-Search-System">
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Homepage />} />
       </Routes>

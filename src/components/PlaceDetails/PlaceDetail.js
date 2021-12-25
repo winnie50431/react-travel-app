@@ -10,7 +10,6 @@ import {
   Chip,
 } from "@material-ui/core";
 import { LocationOn, Phone } from "@material-ui/icons";
-import { Rating } from "@material-ui/lab";
 
 import useStyles from "./styles";
 
@@ -18,7 +17,7 @@ const PlaceDetail = ({ place, selected, refProp }) => {
   const classes = useStyles();
 
   if (selected) {
-    console.log(refProp);
+    // console.log(refProp);
     refProp?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -26,47 +25,64 @@ const PlaceDetail = ({ place, selected, refProp }) => {
     <Card>
       <CardMedia
         style={{ height: 350 }}
-        image={place.photo ? place.photo.images.large.url : ""}
-        title={place.title}
+        image={place.Picture ? place.Picture.PictureUrl1 : ""}
+        title={place.Name}
       />
       <CardContent>
         <Typography gutterBottom variant="h5">
-          {place.name}
+          {place.Name}
         </Typography>
-        <Box display="flex" justifyContent="space-between">
-          <Rating value={Number(place.rating)} readOnly />
-          <Typography gutterBottom variant="subtitle1">
-            out of {place.num_reviews} reviews
-          </Typography>
-        </Box>
-        <Box display="flex" justifyContent="space-between">
-          <Typography variant="subtitle1">Price</Typography>
-          <Typography gutterBottom variant="subtitle1">
-            {place.price_level}
-          </Typography>
-        </Box>
-        <Box display="flex" justifyContent="space-between">
-          <Typography variant="subtitle1">Ranking</Typography>
-          <Typography gutterBottom variant="subtitle1">
-            {place.ranking}
-          </Typography>
-        </Box>
-        {place?.awards?.map((award) => (
-          <Box
-            my={1}
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <img src={award.images.small} alt="award" />
-            <Typography variant="subtitle2" color="textSecondary">
-              {award.display_name}
+        {place.OpenTime ? (
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="subtitle1">營業時間</Typography>
+            <Typography gutterBottom variant="subtitle1">
+              {place.OpenTime}
             </Typography>
           </Box>
-        ))}
-        {place?.cuisine?.map(({ name }) => (
-          <Chip key={name} size="small" label={name} className={classes.chip} />
-        ))}
+        ) : null}
+        <Box display="flex" justifyContent="space-between">
+          <Typography gutterBottom variant="body1" color="textSecondary">
+            {place.Description || place.DescriptionDetail}
+          </Typography>
+        </Box>
+        {place.ParkingInfo ? (
+          <Box display="flex" justifyContent="space-between">
+            <Typography gutterBottom variant="subtitle1">
+              {place.ParkingInfo}
+            </Typography>
+          </Box>
+        ) : null}
+        <Chip
+          size="small"
+          label={place.Class || place.Class1}
+          className={classes.chip}
+        />
+        <Typography
+          gutterBottom
+          variant="subtitle2"
+          color="textSecondary"
+          className={classes.subtitle}
+        >
+          <LocationOn />
+          {place.Address || place.City}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          color="textSecondary"
+          className={classes.spacing}
+        >
+          <Phone />
+          {place.Phone}
+        </Typography>
+        <CardActions>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => window.open(place.WebsiteUrl, "_blank")}
+          >
+            官方網站
+          </Button>
+        </CardActions>
       </CardContent>
     </Card>
   );

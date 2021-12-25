@@ -9,13 +9,10 @@ import {
   FormControl,
 } from "@material-ui/core";
 import PlaceDetail from "../PlaceDetails/PlaceDetail";
-
 import useStyles from "./styles";
 
-const List = ({ places, childClicked, isLoading }) => {
+const List = ({ type, setType, places, childClicked, isLoading }) => {
   const classes = useStyles();
-  const [type, setType] = useState("restaurants");
-  const [rating, setRating] = useState("");
   const [elRefs, setElRefs] = useState([]);
 
   useEffect(() => {
@@ -35,21 +32,13 @@ const List = ({ places, childClicked, isLoading }) => {
         </div>
       ) : (
         <>
+          {/* 選擇要查找的分類(API) */}
           <FormControl className={classes.formControl}>
             <InputLabel>Type</InputLabel>
             <Select value={type} onChange={(e) => setType(e.target.value)}>
-              <MenuItem value="restaurants">餐廳</MenuItem>
-              <MenuItem value="hotels">旅館</MenuItem>
-              <MenuItem value="attractions">景點</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel>Rating</InputLabel>
-            <Select value={rating} onChange={(e) => setRating(e.target.value)}>
-              <MenuItem value={0}>All</MenuItem>
-              <MenuItem value={3}>3顆星</MenuItem>
-              <MenuItem value={4}>4顆星</MenuItem>
-              <MenuItem value={4.5}>4.5顆星以上</MenuItem>
+              <MenuItem value="ScenicSpot">景點</MenuItem>
+              <MenuItem value="Restaurant">餐廳</MenuItem>
+              <MenuItem value="Hotel">旅館</MenuItem>
             </Select>
           </FormControl>
           <Grid container spacing={3} className={classes.list}>

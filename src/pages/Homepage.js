@@ -1,40 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { getPlacesData } from "../api";
+import { getData } from "../api/services";
 import Navbar from "../components/Navbar/Navbar";
 import Map from "../components/Map/Map";
-import { CssBaseline, Grid } from "@material-ui/core";
 import List from "../components/List/List";
+import { CssBaseline, Grid } from "@material-ui/core";
 
 const Homepage = () => {
+  // 預設為台北車站
   const [coordinates, setCoordinates] = useState({
-    lat: 25.103392,
-    lng: 121.520988,
+    lat: 25.047675,
+    lng: 121.517055,
   });
-  const [bounds, setBounds] = useState({ ne: 0, sw: 0 });
-
-  const [places, setPlaces] = useState([]);
-  const [childClicked, setChildClicked] = useState(null);
+  const [type, setType] = useState("ScenicSpot");
+  const [places, setPlaces] = useState(null); // api回傳的地點資訊
+  const [childClicked, setChildClicked] = useState(null); // 點擊的物件
 
   // for refs; "Cannot read properties of undefined (reading 'length')"
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // loading animation
+
+  /** get current position */
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      // (e) => console.log(e)
       ({ coords: { latitude, longitude } }) => {
         setCoordinates({ lat: latitude, lng: longitude });
-      }
+      },
+      (e) => console.log(e)
     );
   }, []);
 
+  /** whenever position was changed */
   useEffect(() => {
     setIsLoading(true);
-    // console.log(coordinates, bounds);
-    getPlacesData(bounds.sw, bounds.ne).then((data) => {
-      // console.log(data);
-      setPlaces(data);
-      setIsLoading(false);
-    });
-  }, [coordinates, bounds]);
+    if (coordinates) {
+      getData(type, coordinates.lat, coordinates.lng)
+        .then((data) => {
+          setPlaces(data);
+          setIsLoading(false);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [coordinates, type]);
 
   return (
     <div>
@@ -43,6 +48,8 @@ const Homepage = () => {
       <Grid container spacing={3} style={{ width: "100%" }}>
         <Grid item xs={12} md={4}>
           <List
+            type={type}
+            setType={setType}
             places={places}
             childClicked={childClicked}
             isLoading={isLoading}
@@ -51,7 +58,6 @@ const Homepage = () => {
         <Grid item xs={12} md={8}>
           <Map
             setCoordinates={setCoordinates}
-            setBounds={setBounds}
             setChildClicked={setChildClicked}
             coordinates={coordinates}
             places={places}
