@@ -4,7 +4,7 @@
 <br />
 <div align="center">
   <a href="https://taiwan-tour.netlify.app/">
-    <img src="./public/logo192.png" alt="Logo" width="80" height="80">
+    <img src="./public/logo128.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Taiwan Tourism</h3>
