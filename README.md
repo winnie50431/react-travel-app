@@ -50,17 +50,15 @@ major frameworks/libraries used to bootstrap the project..
 - [x] Display Places on the Map
 - [x] Scroll Places & Filters
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTACT -->
 
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Winnie Lin - winnie50431@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Github: [https://github.com/winnie50431](https://github.com/winnie50431)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
